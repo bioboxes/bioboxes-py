@@ -17,6 +17,17 @@ $(dist): $(shell find biobox) requirements/default.txt setup.py
 
 #################################################
 #
+# Unit tests
+#
+#################################################
+
+test = @$(path) python -m pytest --ignore=./vendor
+
+test:
+	$(test)
+
+#################################################
+#
 # Bootstrap project requirements for development
 #
 #################################################
@@ -32,4 +43,4 @@ vendor/python: requirements/default.txt requirements/development.txt
 		2>&1 > log/pip.txt
 	touch $@
 
-.PHONY: bootstrap build
+.PHONY: bootstrap build test
