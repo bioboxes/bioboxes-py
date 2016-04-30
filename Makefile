@@ -33,6 +33,7 @@ test:
 #################################################
 
 bootstrap: vendor/python
+	docker pull alpine:3.3
 
 vendor/python: requirements/default.txt requirements/development.txt
 	mkdir -p log
