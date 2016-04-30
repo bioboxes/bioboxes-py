@@ -1,0 +1,5 @@
+*.egg-info
+dist
+log
+vendor
+*.pyc
