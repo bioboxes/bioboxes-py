@@ -8,7 +8,7 @@ setup(
     author               = 'bioboxes',
     author_email         = 'mail@bioboxes.org',
     url                  = 'http://bioboxes.org',
-    install_requires     = open('requirements.txt').read().splitlines(),
+    install_requires     = open('requirements/default.txt').read().splitlines(),
 
     packages             = find_packages(),
     include_package_data = True,
