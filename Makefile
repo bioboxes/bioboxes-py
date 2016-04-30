@@ -11,9 +11,20 @@ dist    := dist/$(name)-$(version).tar.gz
 
 build: $(dist)
 
-$(dist): $(shell find biobox) requirements.txt setup.py
+$(dist): $(shell find biobox) requirements/default.txt setup.py
 	$(path) python setup.py sdist
 	touch $@
+
+#################################################
+#
+# Unit tests
+#
+#################################################
+
+test = @$(path) python -m pytest --ignore=./vendor
+
+test:
+	$(test)
 
 #################################################
 #
@@ -23,10 +34,13 @@ $(dist): $(shell find biobox) requirements.txt setup.py
 
 bootstrap: vendor/python
 
-vendor/python: requirements.txt
+vendor/python: requirements/default.txt requirements/development.txt
 	mkdir -p log
 	virtualenv $@ 2>&1 > log/virtualenv.txt
-	$(path) pip install -r $< 2>&1 > log/pip.txt
+	$(path) pip install \
+		--requirement requirements/default.txt \
+		--requirement requirements/development.txt \
+		2>&1 > log/pip.txt
 	touch $@
 
-.PHONY: bootstrap
+.PHONY: bootstrap build test
