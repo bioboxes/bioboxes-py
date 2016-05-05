@@ -21,10 +21,15 @@ $(dist): $(shell find biobox) requirements/default.txt setup.py
 #
 #################################################
 
-test = @$(path) python -m pytest --ignore=./vendor
+test     = $(path) python -m pytest --ignore=./vendor
+autotest = clear && $(test) -m 'not slow'
 
 test:
-	$(test)
+	@$(test)
+
+autotest:
+	@$(autotest) || true # Using true starts tests even on failure
+	@fswatch -o ./biobox -o ./test | xargs -n 1 -I {} bash -c "$(autotest)"
 
 #################################################
 #
