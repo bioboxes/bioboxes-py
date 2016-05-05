@@ -21,10 +21,15 @@ $(dist): $(shell find biobox) requirements/default.txt setup.py
 #
 #################################################
 
-test = @$(path) python -m pytest --ignore=./vendor
+test     = $(path) python -m pytest --ignore=./vendor
+autotest = clear && $(test) -m 'not slow'
 
 test:
-	$(test)
+	@$(test)
+
+autotest:
+	@$(autotest) || true # Using true starts tests even on failure
+	@fswatch -o ./biobox -o ./test | xargs -n 1 -I {} bash -c "$(autotest)"
 
 #################################################
 #
@@ -34,6 +39,7 @@ test:
 
 bootstrap: vendor/python
 	docker pull alpine:3.3
+	docker pull alpine@sha256:9cacb71397b640eca97488cf08582ae4e4068513101088e9f96c9814bfda95e0
 
 vendor/python: requirements/default.txt requirements/development.txt
 	mkdir -p log

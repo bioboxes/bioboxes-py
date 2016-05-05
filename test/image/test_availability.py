@@ -2,21 +2,35 @@ import pytest
 import biobox.image.availability as avail
 import biobox.exception
 
-def test_checking_a_locally_available_image():
-    assert avail.is_image_available_locally("alpine")
+IMAGE_TAGS = [
+        "alpine",
+        "alpine:3.3",
+        "alpine@sha256:9cacb71397b640eca97488cf08582ae4e4068513101088e9f96c9814bfda95e0"]
 
-def test_checking_an_locally_available_image_with_tag():
-    assert avail.is_image_available_locally("alpine:3.3")
+UNKNOWN_TAGS = [
+        "unknown",
+        "unknown:3.3",
+        "unknown@sha256:9cacb71397b640eca97488cf08582ae4e4068513101088e9f96c9814bfda95e0"]
+
+def test_list_of_local_images():
+    images = avail.list_of_local_images()
+    for tag in IMAGE_TAGS:
+        assert tag in images
+
+def test_checking_a_locally_available_image():
+    for tag in IMAGE_TAGS:
+        assert avail.is_image_available_locally(tag)
 
 def test_checking_a_locally_non_existent_image():
-    assert not avail.is_image_available_locally("bioboxes/unknown")
+    for tag in UNKNOWN_TAGS:
+        assert not avail.is_image_available_locally(tag)
 
 def test_getting_an_image():
-    avail.get_image("alpine")
+    for tag in IMAGE_TAGS:
+        assert avail.get_image(tag)
 
-def test_getting_an_image_with_tag():
-    avail.get_image("alpine:3.3")
-
+@pytest.mark.slow
 def test_getting_an_image_that_doesnt_exist():
     with pytest.raises(biobox.exception.NoImageFound):
-        avail.get_image("bioboxes/unknown")
+        for tag in UNKNOWN_TAGS:
+            avail.get_image(tag)
