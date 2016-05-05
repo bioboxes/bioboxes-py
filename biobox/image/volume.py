@@ -24,3 +24,9 @@ def biobox_file(host_directory_path):
     Creates volume string for the directory containing biobox.yaml
     """
     return create_volume_string(host_directory_path, "/bbx/input")
+
+def get_host_path(volume_string):
+    """
+    Returns the host path from a Docker volume string
+    """
+    return volume_string.split(":")[0]
