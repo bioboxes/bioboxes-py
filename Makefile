@@ -49,4 +49,12 @@ vendor/python: requirements/default.txt requirements/development.txt
 		2>&1 > log/pip.txt
 	touch $@
 
+tmp/data/reads.fq.gz:
+	mkdir -p $(dir $@)
+	wget \
+		--quiet \
+		--output-document $@ \
+		https://s3-us-west-1.amazonaws.com/nucleotides-testing/short-read-assembler/reads.fq.gz
+
+
 .PHONY: bootstrap build test
