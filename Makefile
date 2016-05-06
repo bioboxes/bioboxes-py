@@ -38,7 +38,8 @@ autotest:
 #################################################
 
 bootstrap: vendor/python tmp/data/reads.fq.gz
-	mkdir ./tmp/tests
+	mkdir -p ./tmp/tests
+	docker pull bioboxes/velvet@sha256:6611675a6d3755515592aa71932bd4ea4c26bccad34fae7a3ec1198ddcccddad
 	docker pull alpine:3.3
 	docker pull alpine@sha256:9cacb71397b640eca97488cf08582ae4e4068513101088e9f96c9814bfda95e0
 

@@ -40,6 +40,7 @@ def test_create_container():
     assert "Id" in cnt
     util.client().remove_container(cnt['Id'])
 
+
 @pytest.mark.slow
 def test_executing_container():
     out_dir = tempfile.mkdtemp()
