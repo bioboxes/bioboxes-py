@@ -13,14 +13,14 @@ def create_args(x):
 
 def test_remap_args_with_single_file():
     input    = [{"id" : 0 , "value" : reads_1, "type": "paired"}]
-    expected = [{"id" : 0 , "value" : "/fastq/0/reads_1", "type": "paired"}]
+    expected = [{"id" : 0 , "value" : "/bbx/mount/0/reads_1", "type": "paired"}]
     assert cnf.remap_biobox_input_paths(create_args(input)) == create_args(expected)
 
 def test_remap_args_with_two_files_in_same_dir():
     input    = [{"id" : 0 , "value" : reads_1, "type": "paired"},
                 {"id" : 1 , "value" : reads_2, "type": "paired"}]
-    expected = [{"id" : 0 , "value" : "/fastq/0/reads_1", "type": "paired"},
-                {"id" : 1 , "value" : "/fastq/0/reads_2", "type": "paired"}]
+    expected = [{"id" : 0 , "value" : "/bbx/mount/0/reads_1", "type": "paired"},
+                {"id" : 1 , "value" : "/bbx/mount/0/reads_2", "type": "paired"}]
     assert cnf.remap_biobox_input_paths(create_args(input)) == create_args(expected)
 
 def test_remap_args_with_two_files_in_different_dir():

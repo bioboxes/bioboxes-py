@@ -1,24 +1,19 @@
-import os.path
+import os.path, funcy
+import biobox.image.volume as vol
+
 from functools import partial
 
-def remap_entries(entry_type, xs):
-
-    def host_directory(x):
-        return os.path.dirname(os.path.abspath(x))
-
-    def container_directory(index):
-        return "/" + os.path.join(entry_type, str(index))
+def remap_entries(xs):
 
     def remap(path_dict, x):
-        x['value'] = os.path.join(path_dict[host_directory(x['value'])], os.path.basename(x['value']))
-        return x
+        f = lambda i: os.path.join(path_dict[vol.host_directory(i)], os.path.basename(i))
+        return funcy.update_in(x, ['value'], f)
 
-    uniq_paths = set(map(lambda x: host_directory(x['value']), xs))
-    mapping = dict(map(lambda (i, v): (v, container_directory(i)), enumerate(uniq_paths)))
-    return map(partial(remap, mapping), xs)
+    paths = funcy.pluck('value', xs)
+    return map(partial(remap, vol.create_host_container_directory_mapping(paths)), xs)
 
 def remap_biobox_input_paths(args):
-    return map(lambda i: dict(map(lambda (k, v): (k, remap_entries(k, v)), i.items())), args)
+    return map(partial(funcy.walk_values, remap_entries), args)
 
 def generate_biobox_file_content(args):
     import yaml

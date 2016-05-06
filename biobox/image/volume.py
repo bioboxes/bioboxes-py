@@ -30,3 +30,18 @@ def get_host_path(volume_string):
     Returns the host path from a Docker volume string
     """
     return volume_string.split(":")[0]
+
+def host_directory(x):
+    return os.path.dirname(os.path.abspath(x))
+
+def create_host_container_directory_mapping(paths):
+    """
+    Given a list of directories on the host returns a dictionary mapping
+    them to directories within the biobox container
+    """
+
+    def container_directory(index):
+        return os.path.join("/bbx/mount", str(index))
+
+    uniq_paths = set(map(host_directory, paths))
+    return dict(map(lambda (i, v): (v, container_directory(i)), enumerate(uniq_paths)))

@@ -22,3 +22,19 @@ def test_create_input_volume_string():
 def test_create_biobox_file_volume_string():
     expected = "/tmp:/bbx/input:ro"
     assert vol.biobox_file("/tmp") == expected
+
+def test_create_remapping_with_single_file():
+    paths = ["/host/dir/0/file_0"]
+    mapping = vol.create_host_container_directory_mapping(paths)
+    assert mapping == {"/host/dir/0" : "/bbx/mount/0"}
+
+def test_create_remapping_with_two_files_in_same_dir():
+    paths = ["/host/dir/0/file_0", "/host/dir/0/file_1"]
+    mapping = vol.create_host_container_directory_mapping(paths)
+    assert mapping == {"/host/dir/0" : "/bbx/mount/0"}
+
+def test_create_remapping_with_two_files_in_different_dir():
+    paths = ["/host/dir/0/file_0", "/host/dir/1/file_0"]
+    mapping = vol.create_host_container_directory_mapping(paths)
+    assert mapping == {"/host/dir/0" : "/bbx/mount/1",
+                       "/host/dir/1" : "/bbx/mount/0" }

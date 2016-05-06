@@ -14,4 +14,4 @@ def test_prepare_biobox_file():
         contents = yaml.load(f.read())
 
     container_path = contents['arguments'][0]['fastq'][0]['value']
-    assert container_path == '/fastq/0/reads.fq.gz'
+    assert container_path == '/bbx/mount/0/reads.fq.gz'

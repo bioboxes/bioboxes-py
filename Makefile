@@ -37,8 +37,9 @@ autotest:
 #
 #################################################
 
-bootstrap: vendor/python
+bootstrap: vendor/python tmp/data/reads.fq.gz
 	docker pull alpine:3.3
+	docker pull alpine@sha256:9cacb71397b640eca97488cf08582ae4e4068513101088e9f96c9814bfda95e0
 
 vendor/python: requirements/default.txt requirements/development.txt
 	mkdir -p log
