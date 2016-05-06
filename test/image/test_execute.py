@@ -40,7 +40,7 @@ def test_create_container():
             hlp.biobox_args(),
             tempfile.mkdtemp())
     assert "Id" in cnt
-    util.client().remove_container(cnt['Id'])
+    hlp.clean_up_container(cnt["Id"])
 
 
 @pytest.mark.slow
@@ -57,4 +57,4 @@ def test_executing_container():
     util.client().wait(id_)
     assert funcy.get_in(util.client().inspect_container(id_), ['State', 'ExitCode']) == 0
     assert os.path.isfile(os.path.join(out_dir, 'contigs.fa'))
-    util.client().remove_container(id_)
+    hlp.clean_up_container(id_)
