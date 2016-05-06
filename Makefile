@@ -21,7 +21,7 @@ $(dist): $(shell find biobox) requirements/default.txt setup.py
 #
 #################################################
 
-test     = $(path) python -m pytest --ignore=./vendor
+test     = TMPDIR=./tmp/tests $(path) python -m pytest --ignore=./vendor
 autotest = clear && $(test) -m 'not slow'
 
 test:
@@ -38,6 +38,7 @@ autotest:
 #################################################
 
 bootstrap: vendor/python tmp/data/reads.fq.gz
+	mkdir ./tmp/tests
 	docker pull alpine:3.3
 	docker pull alpine@sha256:9cacb71397b640eca97488cf08582ae4e4068513101088e9f96c9814bfda95e0
 
