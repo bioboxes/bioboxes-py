@@ -29,7 +29,7 @@ def biobox_file(host_directory_path):
     """
     Creates volume string for the directory containing biobox.yaml
     """
-    return create_volume_string(host_directory_path, BIOBOX_INPUT_MOUNT_LOC)
+    return create_volume_string(host_directory_path, "/bbx/input")
 
 
 def get_host_path(volume_string):

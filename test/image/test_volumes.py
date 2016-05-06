@@ -26,7 +26,7 @@ def test_create_input_volume_string():
     assert vol.input("/tmp") == expected
 
 def test_create_biobox_file_volume_string():
-    expected = "/tmp:/bbx/mount:ro"
+    expected = "/tmp:/bbx/input:ro"
     assert vol.biobox_file("/tmp") == expected
 
 #################################################
