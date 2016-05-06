@@ -31,9 +31,9 @@ def prepare_input_volumes(config):
     return f(config)
 
 def prepare_volumes(config, output_directory):
-    return [prepare_biobox_file(config),
-            prepare_input_volumes(config),
-            vol.output(output_directory)]
+    return prepare_input_volumes(config)  + \
+            [prepare_biobox_file(config)] + \
+            [vol.output(output_directory)]
 
 def create_container(image, config, output_directory, task = "default"):
     volumes = prepare_volumes(config, output_directory)
