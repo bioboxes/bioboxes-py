@@ -5,6 +5,18 @@ dist    := dist/$(name)-$(version).tar.gz
 
 #################################################
 #
+# Publish the pip package
+#
+#################################################
+
+publish: $(dist)
+	@$(path) twine upload \
+		--username ${PYPI_USERNAME} \
+		--password ${PYPI_PASSWORD} \
+		$^
+
+#################################################
+#
 # Build the pip package
 #
 #################################################
