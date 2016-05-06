@@ -4,6 +4,8 @@ import biobox.image.execute as exe
 import biobox.image.volume  as vol
 import biobox.util          as util
 
+IMAGE = 'bioboxes/velvet@sha256:6611675a6d3755515592aa71932bd4ea4c26bccad34fae7a3ec1198ddcccddad'
+
 
 def test_prepare_biobox_file():
     biobox_file_dir = vol.get_host_path(exe.prepare_biobox_file(hlp.biobox_args()))
@@ -34,7 +36,7 @@ def test_prepare_volumes():
 
 def test_create_container():
     cnt = exe.create_container(
-            'bioboxes/velvet',
+            IMAGE,
             hlp.biobox_args(),
             tempfile.mkdtemp())
     assert "Id" in cnt
@@ -45,7 +47,7 @@ def test_create_container():
 def test_executing_container():
     out_dir = tempfile.mkdtemp()
     cnt = exe.create_container(
-            'bioboxes/velvet',
+            IMAGE,
             hlp.biobox_args(),
             out_dir,
             "default",
