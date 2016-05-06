@@ -17,14 +17,17 @@ def test_list_of_local_images():
     for tag in IMAGE_TAGS:
         assert tag in images
 
+@pytest.mark.slow
 def test_checking_a_locally_available_image():
     for tag in IMAGE_TAGS:
         assert avail.is_image_available_locally(tag)
 
+@pytest.mark.slow
 def test_checking_a_locally_non_existent_image():
     for tag in UNKNOWN_TAGS:
         assert not avail.is_image_available_locally(tag)
 
+@pytest.mark.slow
 def test_getting_an_image():
     for tag in IMAGE_TAGS:
         assert avail.get_image(tag)
