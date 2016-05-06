@@ -1,4 +1,4 @@
-import os.path, yaml, pytest, tempfile
+import os.path, yaml, pytest, tempfile, funcy
 import test.helper          as hlp
 import biobox.image.execute as exe
 import biobox.image.volume  as vol
@@ -39,3 +39,19 @@ def test_create_container():
             tempfile.mkdtemp())
     assert "Id" in cnt
     util.client().remove_container(cnt['Id'])
+
+@pytest.mark.slow
+def test_executing_container():
+    out_dir = tempfile.mkdtemp()
+    cnt = exe.create_container(
+            'bioboxes/velvet',
+            hlp.biobox_args(),
+            out_dir,
+            "default",
+            {"detach" : False})
+    id_ = cnt['Id']
+    util.client().start(id_)
+    util.client().wait(id_)
+    assert funcy.get_in(util.client().inspect_container(id_), ['State', 'ExitCode']) == 0
+    assert os.path.isfile(os.path.join(out_dir, 'contigs.fa'))
+    util.client().remove_container(id_)
