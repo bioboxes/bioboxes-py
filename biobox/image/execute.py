@@ -35,10 +35,8 @@ def prepare_volumes(config, output_directory):
             [prepare_biobox_file(config)] + \
             [vol.output(output_directory)]
 
-def create_container(image, config, output_directory, task = "default"):
+def create_container(image, config, output_directory, task = "default", docker_args = {}):
     volumes = prepare_volumes(config, output_directory)
-    return util.client().create_container(
-            image,
-            task,
-            volumes     = map(vol.get_host_path, volumes),
-            host_config = docker.utils.create_host_config(binds=volumes))
+    docker_args['volumes']     = map(vol.get_host_path, volumes)
+    docker_args['host_config'] = docker.utils.create_host_config(binds=volumes)
+    return util.client().create_container(image, task, **docker_args)
