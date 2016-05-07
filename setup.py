@@ -2,10 +2,8 @@ import pkg_resources, os
 from setuptools import setup, find_packages
 import biobox
 
-
-
 setup(
-    name                 = 'biobox',
+    name                 = 'biobox-py',
     version              = biobox.__version__,
     description          = 'Create and run biobox Docker containers',
     author               = 'bioboxes',
