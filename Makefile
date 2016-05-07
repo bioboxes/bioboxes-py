@@ -69,17 +69,17 @@ bootstrap: vendor/python tmp/data/reads.fq.gz .$(installer-image)
 	touch $@
 
 vendor/python: requirements/default.txt requirements/development.txt
-	mkdir -p log
-	virtualenv $@ 2>&1 > log/virtualenv.txt
-	$(path) pip install \
+	@mkdir -p log
+	@virtualenv $@ 2>&1 > log/virtualenv.txt
+	@$(path) pip install \
 		--requirement requirements/default.txt \
 		--requirement requirements/development.txt \
 		2>&1 > log/pip.txt
-	touch $@
+	@touch $@
 
 tmp/data/reads.fq.gz:
-	mkdir -p $(dir $@)
-	wget \
+	@mkdir -p $(dir $@)
+	@wget \
 		--quiet \
 		--output-document $@ \
 		https://s3-us-west-1.amazonaws.com/nucleotides-testing/short-read-assembler/reads.fq.gz
