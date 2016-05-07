@@ -14,3 +14,10 @@ test:
   override:
     - ./script/test
     - ./script/build
+
+deployment:
+  deploy:
+    branch: master
+    owner: bioboxes
+    commands:
+      - ./script/publish
