@@ -5,3 +5,4 @@ vendor
 *.pyc
 .cache
 tmp
+.test-install
