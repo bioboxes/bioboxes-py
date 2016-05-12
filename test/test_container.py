@@ -1,4 +1,4 @@
-import time, funcy
+import time, pytest
 import biobox.container as ctn
 import biobox.util      as util
 import test.helper      as hlp
@@ -36,10 +36,10 @@ def test_is_container_running():
     client.kill(id_)
     hlp.clean_up_container(id_)
 
-def test_get_runtime_metrics():
-    id_ = container(10, False)
-    stats = ctn.get_runtime_metrics(id_)
-    assert not funcy.isnone(stats)
-    assert 'read' in stats
-    client.kill(id_)
+@pytest.mark.slow
+def test_collect_metrics():
+    id_ = container(4.5, False)
+    stats = ctn.collect_runtime_metrics(id_, interval = 1)
+    assert len(stats) >= 3
+    assert 'read' in stats[0]
     hlp.clean_up_container(id_)
