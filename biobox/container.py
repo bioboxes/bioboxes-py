@@ -9,3 +9,6 @@ def did_exit_succcessfully(id_):
 
 def is_running(id_):
     return metadata_lookup(['State', 'Running'], id_)
+
+def get_runtime_metrics(id_):
+    return next(util.client().stats(id_))
