@@ -6,7 +6,6 @@ def clean_up_container(id_):
         biobox.util.client().remove_container(id_)
 
 
-
 def short_read_fastq():
     return os.path.join(
             os.path.dirname(os.path.realpath(__file__)),
