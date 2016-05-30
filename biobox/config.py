@@ -10,10 +10,10 @@ def remap_entries(xs):
         return funcy.update_in(x, ['value'], f)
 
     paths = funcy.pluck('value', xs)
-    return map(partial(remap, vol.create_host_container_directory_mapping(paths)), xs)
+    return list(map(partial(remap, vol.create_host_container_directory_mapping(paths)), xs))
 
 def remap_biobox_input_paths(args):
-    return map(partial(funcy.walk_values, remap_entries), args)
+    return list(map(partial(funcy.walk_values, remap_entries), args))
 
 def generate_biobox_file_content(args):
     import yaml
