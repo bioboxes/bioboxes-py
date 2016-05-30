@@ -1,5 +1,6 @@
 import biobox.util      as util
 import biobox.exception
+from functools import reduce
 
 def get_image_tags(docker_dict):
     """
@@ -27,7 +28,7 @@ def list_of_local_images():
     Returns a set containing all local docker image tags and digests.
     """
     images = util.client().images()
-    tags_and_digests = map(get_image_tags, images) + map(get_image_digests, images)
+    tags_and_digests = list(map(get_image_tags, images)) + list(map(get_image_digests, images))
     return set(reduce(lambda acc, x: acc + x, tags_and_digests, []))
 
 def is_image_available_locally(name):

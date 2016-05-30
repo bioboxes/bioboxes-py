@@ -37,6 +37,6 @@ def prepare_volumes(config, output_directory):
 
 def create_container(image, config, output_directory, task = "default", docker_args = {}):
     volumes = prepare_volumes(config, output_directory)
-    docker_args['volumes']     = map(vol.get_host_path, volumes)
+    docker_args['volumes']     = list(map(vol.get_host_path, volumes))
     docker_args['host_config'] = util.client().create_host_config(binds=volumes)
     return util.client().create_container(image, task, **docker_args)
