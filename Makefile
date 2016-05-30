@@ -42,15 +42,19 @@ $(dist): $(shell find biobox) requirements/default.txt setup.py MANIFEST.in
 #
 #################################################
 
-test     = TMPDIR=./tmp/tests $(path) python -m pytest --ignore=./vendor
-autotest = clear && $(test) -m 'not slow'
+test     = tox
+autotest = clear && $(test) -- -m \'not slow\'
 
 test:
 	@$(test)
 
 autotest:
 	@$(autotest) || true # Using true starts tests even on failure
-	@fswatch -o ./biobox -o ./test | xargs -n 1 -I {} bash -c "$(autotest)"
+	@fswatch \
+		--exclude 'pyc' \
+		--one-per-batch	./biobox \
+		--one-per-batch ./test \
+		| xargs -n 1 -I {} bash -c "$(autotest)"
 
 #################################################
 #
@@ -58,7 +62,7 @@ autotest:
 #
 #################################################
 
-bootstrap: vendor/python tmp/data/reads.fq.gz .$(installer-image)
+bootstrap: .tox tmp/data/reads.fq.gz .$(installer-image)
 	mkdir -p ./tmp/tests
 	docker pull bioboxes/velvet@sha256:6611675a6d3755515592aa71932bd4ea4c26bccad34fae7a3ec1198ddcccddad
 	docker pull alpine:3.3
@@ -68,13 +72,8 @@ bootstrap: vendor/python tmp/data/reads.fq.gz .$(installer-image)
 	docker build --tag $(installer-image) .
 	touch $@
 
-vendor/python: requirements/default.txt requirements/development.txt
-	@mkdir -p log
-	@virtualenv $@ 2>&1 > log/virtualenv.txt
-	@$(path) pip install \
-		--requirement requirements/default.txt \
-		--requirement requirements/development.txt \
-		2>&1 > log/pip.txt
+.tox: requirements/default.txt requirements/development.txt
+	tox --notest
 	@touch $@
 
 tmp/data/reads.fq.gz:
