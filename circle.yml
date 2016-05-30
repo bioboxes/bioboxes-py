@@ -10,7 +10,7 @@ dependencies:
   post:
     - ./script/bootstrap
   cache_directories:
-    - vendor
+    - .tox
 
 test:
   override:
