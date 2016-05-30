@@ -5,7 +5,7 @@ machine:
     - docker
 
 dependencies:
-  override:
+  post:
     - ./script/bootstrap
   cache_directories:
     - vendor
