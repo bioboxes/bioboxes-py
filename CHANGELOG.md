@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file. This
 project adheres to [Semantic Versioning](http://semver.org/).
 
+## v0.2.1 - 2016-05-29
+
+### Fixed
+
+  * The library is now python 3 compatible.
 
 ## v0.2.0 - 2016-05-13
 
