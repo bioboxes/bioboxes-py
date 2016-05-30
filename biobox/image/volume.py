@@ -48,12 +48,12 @@ def create_host_container_directory_mapping(paths):
     Given a list of dirs on the host returns a dictionary mapping
     them to dirs within the Docker container
     """
-
-    def container_directory(index):
-        return os.path.join(BIOBOX_INPUT_MOUNT_LOC, str(index))
+    def volume_mapping(i):
+        index, volume = i
+        return (volume, os.path.join(BIOBOX_INPUT_MOUNT_LOC, str(index)))
 
     uniq_paths = set(map(host_directory, paths))
-    return dict(map(lambda (i, v): (v, container_directory(i)), enumerate(uniq_paths)))
+    return dict(map(volume_mapping, enumerate(uniq_paths)))
 
 
 def create_input_volume_strings(paths):
@@ -61,5 +61,5 @@ def create_input_volume_strings(paths):
     Given a list of dirs on the host returns the volume strings used by the
     Docker daemon to mount the dirs into the container
     """
-    return map(partial(apply, create_volume_string),
-            create_host_container_directory_mapping(paths).items())
+    f = lambda i: create_volume_string(*i)
+    return list(map(f, create_host_container_directory_mapping(paths).items()))
