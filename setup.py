@@ -1,6 +1,12 @@
-import pkg_resources, os
+import pkg_resources, os, pkgutil
 from setuptools import setup, find_packages
 import biobox
+
+def dependencies():
+    file_ = pkg_resources.resource_filename(__name__, os.path.join('requirements', 'default.txt'))
+    with open(file_, 'r') as f:
+        return f.read().splitlines()
+
 
 setup(
     name                 = 'biobox-py',
@@ -9,7 +15,7 @@ setup(
     author               = 'bioboxes',
     author_email         = 'mail@bioboxes.org',
     url                  = 'http://bioboxes.org',
-    install_requires     = pkg_resources.resource_string(__name__, os.path.join('requirements', 'default.txt')).splitlines(),
+    install_requires     = dependencies(),
 
     packages             = find_packages(),
     include_package_data = True,
