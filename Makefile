@@ -66,7 +66,11 @@ autotest:
 #
 #################################################
 
-bootstrap: .tox tmp/data/reads.fq.gz
+bootstrap: \
+	.tox \
+	tmp/data/reads.fq.gz \
+	tmp/data/contigs.fa \
+	tmp/reference/reference.fa
 	mkdir -p ./tmp/tests
 	docker pull bioboxes/velvet@sha256:6611675a6d3755515592aa71932bd4ea4c26bccad34fae7a3ec1198ddcccddad
 	docker pull alpine:3.3
@@ -76,12 +80,17 @@ bootstrap: .tox tmp/data/reads.fq.gz
 	tox --notest
 	@touch $@
 
-tmp/data/reads.fq.gz:
+
+tmp/reference/reference.fa: tmp/data/reference.fa
+	@mkdir -p $(dir $@)
+	@mv $< $@
+
+tmp/data/%:
 	@mkdir -p $(dir $@)
 	@wget \
 		--quiet \
 		--output-document $@ \
-		https://s3-us-west-1.amazonaws.com/nucleotides-testing/short-read-assembler/reads.fq.gz
+		https://s3-us-west-1.amazonaws.com/nucleotides-testing/short-read-assembler/$*
 
 
 .PHONY: bootstrap build test
