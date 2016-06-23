@@ -34,8 +34,6 @@ test-build: $(dist)
 	done
 
 
-
-
 $(dist): $(shell find biobox) requirements/default.txt setup.py MANIFEST.in
 	$(path) python setup.py sdist
 	touch $@
@@ -46,8 +44,8 @@ $(dist): $(shell find biobox) requirements/default.txt setup.py MANIFEST.in
 #
 #################################################
 
-test     = tox
-autotest = clear && $(test) -- -m \'not slow\'
+test     = tox -- $(ARGS)
+autotest = clear && $(test) -m \'not slow\'
 
 test:
 	@$(test)
@@ -79,7 +77,6 @@ bootstrap: \
 .tox: requirements/default.txt requirements/development.txt
 	tox --notest
 	@touch $@
-
 
 tmp/reference/reference.fa: tmp/data/reference.fa
 	@mkdir -p $(dir $@)
