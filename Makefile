@@ -47,10 +47,10 @@ $(dist): $(shell find biobox) requirements/default.txt setup.py MANIFEST.in
 test     = tox -- $(ARGS)
 autotest = clear && $(test) -m \'not slow\'
 
-test:
+test: tmp/tests
 	@$(test)
 
-autotest:
+autotest: tmp/tests
 	@$(autotest) || true # Using true starts tests even on failure
 	@fswatch \
 		--exclude 'pyc' \
@@ -89,5 +89,7 @@ tmp/data/%:
 		--output-document $@ \
 		https://s3-us-west-1.amazonaws.com/nucleotides-testing/short-read-assembler/$*
 
+tmp/tests:
+	mkdir -p $@
 
-.PHONY: bootstrap build test
+.PHONY: bootstrap build test autotest
