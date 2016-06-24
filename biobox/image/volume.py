@@ -1,4 +1,4 @@
-import os
+import os, funcy
 from functools import partial
 
 BIOBOX_INPUT_MOUNT_LOC = "/bbx/mount"
@@ -45,15 +45,20 @@ def host_directory(x):
 
 def create_host_container_directory_mapping(paths):
     """
-    Given a list of dirs on the host returns a dictionary mapping
-    them to dirs within the Docker container
+    Given a list of paths on the host returns a dictionary mapping
+    them to directories within the biobox Docker container
     """
     def volume_mapping(i):
         index, volume = i
         return (volume, os.path.join(BIOBOX_INPUT_MOUNT_LOC, str(index)))
 
-    uniq_paths = set(map(host_directory, paths))
-    return dict(map(volume_mapping, enumerate(uniq_paths)))
+    indexed_uniq_directories = funcy.rcompose(
+            partial(map, host_directory),
+            funcy.distinct,
+            sorted,
+            enumerate)
+
+    return dict(map(volume_mapping, indexed_uniq_directories(paths)))
 
 
 def create_input_volume_strings(paths):
