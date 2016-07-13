@@ -110,4 +110,4 @@ tmp/data/%:
 tmp/tests:
 	mkdir -p $@
 
-.PHONY: bootstrap build test autotest
+.PHONY: bootstrap build test test-build autotest wip publish
