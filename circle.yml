@@ -14,8 +14,8 @@ dependencies:
 
 test:
   override:
-    - ./script/test
     - ./script/build
+    - ./script/test
 
 deployment:
   deploy:
