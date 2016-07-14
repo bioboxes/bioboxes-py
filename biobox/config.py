@@ -3,22 +3,33 @@ import biobox.image.volume as vol
 
 from functools import partial
 
+def get_all_biobox_paths(config):
+    """
+    Returns all paths listed in the biobox file
+    """
+    f = funcy.compose(
+            partial(funcy.pluck, 'value'),
+            funcy.flatten,
+            partial(funcy.mapcat, funcy.itervalues))
+    return f(config)
+
+
 def remap_entries(xs):
-
-    def remap(path_dict, x):
-        f = lambda i: os.path.join(path_dict[vol.host_directory(i)], os.path.basename(i))
+    def remap(x):
+        f = lambda i: vol.get_container_mount(i)['biobox_target']
         return funcy.update_in(x, ['value'], f)
+    return list(map(remap, xs))
 
-    paths = funcy.pluck('value', xs)
-    return list(map(partial(remap, vol.create_host_container_directory_mapping(paths)), xs))
 
 def remap_biobox_input_paths(args):
     return list(map(partial(funcy.walk_values, remap_entries), args))
+
 
 def generate_biobox_file_content(args):
     import yaml
     output = {"version" : "0.9.0", "arguments" : args}
     return yaml.safe_dump(output, default_flow_style = False)
+
 
 def create_biobox_directory(content):
     import tempfile
