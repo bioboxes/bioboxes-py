@@ -1,6 +1,6 @@
 import tempfile, os.path, funcy
-import test.helper   as hlp
 from functools import partial
+import helper as hlp
 
 import biobox.config       as cnf
 import biobox.image.volume as vol

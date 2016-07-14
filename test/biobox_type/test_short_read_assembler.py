@@ -1,5 +1,5 @@
 import os.path, yaml, pytest, tempfile, funcy
-import test.helper          as hlp
+import helper               as hlp
 
 import biobox.image.execute as exe
 import biobox.image.volume  as vol

@@ -1,6 +1,6 @@
 import pytest, tempfile, funcy, os.path
 import biobox.image.execute as exe
-import test.helper          as hlp
+import helper               as hlp
 import biobox.util          as util
 
 IMAGE = 'bioboxes/quast@sha256:1dfe1fb0eb84cd7344b6821cd4f4cdb3f5c1ccb330438eea640b4ce6fda1c4bb'

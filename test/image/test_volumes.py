@@ -1,6 +1,6 @@
-import os, tempfile
+import os, tempfile, pytest
 import biobox.image.volume as vol
-import test.helper         as hlp
+import helper              as hlp
 
 root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 
