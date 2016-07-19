@@ -24,9 +24,14 @@ def prepare_volumes(config, output_directory):
             [prepare_biobox_file(config)] + \
             [vol.output(output_directory)]
 
-
 def create_container(image, config, output_directory, task = "default", docker_args = {}):
     volumes = prepare_volumes(config, output_directory)
     docker_args['volumes']     = list(map(vol.get_host_path, volumes))
-    docker_args['host_config'] = util.client().create_host_config(binds = volumes)
+
+    host_config = {'binds' : volumes}
+    if 'mem_limit' in docker_args:
+        host_config['mem_limit'] = docker_args['mem_limit']
+        del docker_args['mem_limit']
+
+    docker_args['host_config'] = util.client().create_host_config(**host_config)
     return util.client().create_container(image, task, **docker_args)
