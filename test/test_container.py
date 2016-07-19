@@ -1,7 +1,7 @@
 import time, pytest
+import helper           as hlp
 import biobox.container as ctn
 import biobox.util      as util
-import test.helper      as hlp
 
 client = util.client()
 
