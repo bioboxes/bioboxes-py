@@ -82,7 +82,6 @@ autotest: tmp/tests
 #################################################
 
 bootstrap: \
-	.tox \
 	tmp/data/reads.fq.gz \
 	tmp/data/contigs.fa \
 	tmp/reference/reference.fa
@@ -91,10 +90,6 @@ bootstrap: \
 	docker pull bioboxes/quast@sha256:1dfe1fb0eb84cd7344b6821cd4f4cdb3f5c1ccb330438eea640b4ce6fda1c4bb
 	docker pull alpine:3.3
 	docker pull alpine@sha256:9cacb71397b640eca97488cf08582ae4e4068513101088e9f96c9814bfda95e0
-
-.tox: requirements/default.txt requirements/development.txt
-	tox --notest
-	@touch $@
 
 tmp/reference/reference.fa: tmp/data/reference.fa
 	@mkdir -p $(dir $@)
