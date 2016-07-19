@@ -3,11 +3,18 @@
 All notable changes to this project will be documented in this file. This
 project adheres to [Semantic Versioning](http://semver.org/).
 
+## v0.3.1 - 2016-07-19
+
+### Fixed
+
+  * The 'mem_limit' cgroup option is now correctly passed as part of the
+    'host_config' when creating a new container.
+
 ## v0.3.0 - 2016-07-19
 
 ### Added
 
-  * Implemented deterministic filesytem mapping for Docker volumes. The
+  * Implemented deterministic filesystem mapping for Docker volumes. The
     locations for the input data directories will always map to the same
     location in the Docker container. This is based on a creating a digest of
     the host directory path and using this as the directory name in the Docker
