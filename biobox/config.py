@@ -11,7 +11,7 @@ def get_all_biobox_paths(config):
             partial(funcy.pluck, 'value'),
             funcy.flatten,
             partial(funcy.mapcat, funcy.itervalues))
-    return f(config)
+    return list(f(config))
 
 
 def remap_entries(xs):

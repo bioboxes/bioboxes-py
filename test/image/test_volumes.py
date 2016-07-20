@@ -70,9 +70,9 @@ def test_create_volume_string_set_with_single_file():
 def test_create_volume_string_set_with_two_files_in_same_dir():
     dir_ = tempfile.mkdtemp()
     files = [hlp.create_tmp_file("file_0", dir_), hlp.create_tmp_file("file_1", dir_)]
-    assert len(vol.create_volume_string_set(files)) == 1
+    assert len(list(vol.create_volume_string_set(files))) == 1
 
 
 def test_create_volume_string_set_with_two_files_in_different_dir():
     files = [hlp.create_tmp_file("file_0"), hlp.create_tmp_file("file_1")]
-    assert len(vol.create_volume_string_set(files)) == 2
+    assert len(list(vol.create_volume_string_set(files))) == 2
