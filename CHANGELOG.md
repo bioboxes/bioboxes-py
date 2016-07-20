@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. This
 project adheres to [Semantic Versioning](http://semver.org/).
 
+## v0.3.2 - 2016-07-20
+
+### Fixed
+
+  * A bug in tox configuration file meant the library was not being tested with
+    python3 and therefore was not actually python3 compatible. This tox
+    configuration was fixed and the library is now python3 compatible.
+
 ## v0.3.1 - 2016-07-19
 
 ### Fixed
