@@ -51,7 +51,7 @@ def get_container_path(host_directory, container_prefix_path = "/tmp"):
     import hashlib
     from hashids import Hashids
     digest = funcy.rcompose(
-            lambda x: hashlib.md5(x).hexdigest(),
+            lambda x: hashlib.md5(x.encode('utf-8')).hexdigest(),
             lambda x: int(x, base=16),
             Hashids(min_length=6).encode)
     return os.path.join(container_prefix_path, digest(host_directory))
