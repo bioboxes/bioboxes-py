@@ -75,4 +75,4 @@ def create_volume_string_set(paths):
     f = funcy.rcompose(
             get_container_mount,
             lambda x: create_volume_string(x["host_dir"], x["container_dir"]))
-    return funcy.distinct(map(f, paths))
+    return list(funcy.distinct(map(f, paths)))
