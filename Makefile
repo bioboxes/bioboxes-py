@@ -1,7 +1,7 @@
 path    := PATH=.tox/py27/bin:$(shell echo "${PATH}")
 version := $(shell $(path) python setup.py --version)
 name    := $(shell $(path) python setup.py --name)
-dist    := dist/$(name)-$(version).tar.gz
+dist    := ./.tox/dist/$(name)-$(version).zip
 
 NO_COLOR=\x1b[0m
 OK_COLOR=\x1b[32;01m
@@ -20,27 +20,10 @@ publish: $(dist)
 		--password ${PYPI_PASSWORD} \
 		$^
 
-#################################################
-#
-# Build the pip package
-#
-#################################################
-
-build: $(dist) test-build
-
-test-build: $(dist)
-	tox --notest -c build.ini
-	for version in 2 3 ; do \
-		docker run \
-			--tty \
-			--volume=$(abspath $(dir $^)):/dist:ro \
-			frolvlad/alpine-python$${version} \
-			pip install --user /$^ ;\
-	done
-
+build: $(dist)
 
 $(dist): $(shell find biobox) requirements/default.txt setup.py MANIFEST.in
-	$(path) python setup.py sdist
+	tox -e py27 --sdistonly
 	touch $@
 
 #################################################
