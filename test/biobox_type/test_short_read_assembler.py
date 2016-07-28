@@ -1,4 +1,6 @@
-import os.path, yaml, pytest, tempfile, funcy
+import os.path, pytest, tempfile, funcy
+
+import ruamel.yaml          as yaml
 import helper               as hlp
 
 import biobox.image.execute as exe
