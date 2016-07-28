@@ -1,4 +1,5 @@
 import os.path, funcy
+import ruamel.yaml         as yaml
 import biobox.image.volume as vol
 
 from functools import partial
@@ -26,7 +27,6 @@ def remap_biobox_input_paths(args):
 
 
 def generate_biobox_file_content(args):
-    import yaml
     output = {"version" : "0.9.0", "arguments" : args}
     return yaml.safe_dump(output, default_flow_style = False)
 
