@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. This
 project adheres to [Semantic Versioning](http://semver.org/).
 
+## v0.3.3 - 2016-07-27
+
+### Changed
+
+  * Switched to use the ruamel.yaml python library instead of PyYAML as this
+    appears to cause less problems with using python 3.
+
 ## v0.3.2 - 2016-07-20
 
 ### Fixed
