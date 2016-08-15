@@ -30,10 +30,14 @@ def prepare_input_volumes(config):
             partial(map, funcy.itervalues))
     return f(config)
 
-def prepare_volumes(config, output_directory):
-    return prepare_input_volumes(config)  + \
+def prepare_volumes(config, output_directory, metadata_directory = None):
+    vols = prepare_input_volumes(config)  + \
             [prepare_biobox_file(config)] + \
             [vol.output(output_directory)]
+    if metadata_directory:
+        return vols + [vol.metadata(metadata_directory)]
+    else:
+        return vols
 
 def create_container(image, config, output_directory, task = "default", docker_args = {}):
     volumes = prepare_volumes(config, output_directory)

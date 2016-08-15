@@ -34,6 +34,14 @@ def test_prepare_volumes():
         assert os.access(d, os.W_OK)
 
 
+def test_prepare_volumes_with_metadata_dir():
+    volumes = exe.prepare_volumes(hlp.biobox_args(), tempfile.mkdtemp(), tempfile.mkdtemp())
+    assert len(volumes) == 4
+    for d in map(vol.get_host_path, volumes):
+        assert os.path.isdir(d) == True
+        assert os.access(d, os.W_OK)
+
+
 def test_create_container():
     cnt = exe.create_container(
             IMAGE,
