@@ -13,21 +13,28 @@ def create_volume_string(host_dir, container_dir, read_only = True):
 
 def output(host_directory_path):
     """
-    Creates volume string for the biobox output directory path
+    Returns volume string for the biobox output directory path
     """
     return create_volume_string(host_directory_path, "/bbx/output", False)
 
 
 def input(host_directory_path):
     """
-    Creates volume string for the biobox input directory path
+    Returns volume string for the biobox input directory path
     """
     return create_volume_string(host_directory_path, BIOBOX_INPUT_MOUNT_LOC, True)
 
 
+def metadata(host_directory_path):
+    """
+    Returns volume string for the biobox metadata directory path
+    """
+    return create_volume_string(host_directory_path, "/bbx/metadata", False)
+
+
 def biobox_file(host_directory_path):
     """
-    Creates volume string for the directory containing biobox.yaml
+    Returns volume string for the directory containing biobox.yaml
     """
     return create_volume_string(host_directory_path, "/bbx/input")
 

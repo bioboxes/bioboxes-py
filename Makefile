@@ -69,7 +69,7 @@ bootstrap: \
 	tmp/data/contigs.fa \
 	tmp/reference/reference.fa
 	mkdir -p ./tmp/tests
-	docker pull bioboxes/velvet@sha256:6611675a6d3755515592aa71932bd4ea4c26bccad34fae7a3ec1198ddcccddad
+	docker pull bioboxes/tadpole@sha256:d20cdfc02f9e305c931a93c34a8678791d2ebc084f257afd57a79f772e0b470d
 	docker pull bioboxes/quast@sha256:1dfe1fb0eb84cd7344b6821cd4f4cdb3f5c1ccb330438eea640b4ce6fda1c4bb
 	docker pull alpine:3.3
 	docker pull alpine@sha256:9cacb71397b640eca97488cf08582ae4e4068513101088e9f96c9814bfda95e0

@@ -17,7 +17,7 @@ def test_executing_container():
     cnt = exe.create_container(
             IMAGE,
             biobox_cfg(hlp.contigs(), hlp.references()),
-            out_dir,
+            {"output" : out_dir},
             "default",
             {"detach" : False})
     id_ = cnt['Id']

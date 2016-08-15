@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file. This
 project adheres to [Semantic Versioning](http://semver.org/).
 
+## v0.4.0 - 2016-08-15
+
+### Changed
+
+  * The function `create_container` now requires a dictionary of volumes to
+    mount when creating a container. This dictionary requires the output
+    directory, and optionally the metadata directory. The metadata directory is
+    used to store logs by biobox images if mounted.
+
+  * The function `prepare_volumes` accepts an optional metadata_directory host
+    path argument. This is mounted into the container at `/bbx/metadata` if
+    provided.
+
 ## v0.3.3 - 2016-07-27
 
 ### Changed
