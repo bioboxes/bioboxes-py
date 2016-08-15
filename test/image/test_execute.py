@@ -1,7 +1,7 @@
 import pytest, helper, tempfile
 import biobox.image.execute as exe
 
-IMAGE  = 'bioboxes/velvet@sha256:6611675a6d3755515592aa71932bd4ea4c26bccad34fae7a3ec1198ddcccddad'
+IMAGE = 'bioboxes/tadpole@sha256:d20cdfc02f9e305c931a93c34a8678791d2ebc084f257afd57a79f772e0b470d'
 CONFIG = [
         {"fastq": [
                 {"id": 0, "type": "paired", "value": helper.short_read_fastq()}
@@ -18,7 +18,7 @@ def test_create_container_with_cgroup_data():
         cnt = exe.create_container(
                 IMAGE,
                 CONFIG,
-                out_dir,
+                {"output" : out_dir},
                 "default",
                 arg)
         helper.clean_up_container(cnt['Id'])
