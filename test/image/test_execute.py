@@ -4,7 +4,8 @@ import biobox.image.execute as exe
 import biobox.image.volume  as vol
 import biobox.util          as util
 
-IMAGE = 'bioboxes/velvet@sha256:6611675a6d3755515592aa71932bd4ea4c26bccad34fae7a3ec1198ddcccddad'
+IMAGE = 'bioboxes/tadpole@sha256:d20cdfc02f9e305c931a93c34a8678791d2ebc084f257afd57a79f772e0b470d'
+
 
 
 def test_prepare_biobox_file():
