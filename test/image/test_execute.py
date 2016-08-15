@@ -46,7 +46,7 @@ def test_create_container():
     cnt = exe.create_container(
             IMAGE,
             hlp.biobox_args(),
-            tempfile.mkdtemp())
+            {"output" : tempfile.mkdtemp()})
     assert "Id" in cnt
     hlp.clean_up_container(cnt["Id"])
 
@@ -57,7 +57,7 @@ def test_executing_container():
     cnt = exe.create_container(
             IMAGE,
             hlp.biobox_args(),
-            out_dir,
+            {"output" : out_dir},
             "default",
             {"detach" : False})
     id_ = cnt['Id']
@@ -65,4 +65,23 @@ def test_executing_container():
     util.client().wait(id_)
     assert funcy.get_in(util.client().inspect_container(id_), ['State', 'ExitCode']) == 0
     assert os.path.isfile(os.path.join(out_dir, 'contigs.fa'))
+    hlp.clean_up_container(id_)
+
+
+@pytest.mark.slow
+def test_executing_container_with_metadata():
+    out_dir  = tempfile.mkdtemp()
+    meta_dir = tempfile.mkdtemp()
+    cnt = exe.create_container(
+            IMAGE,
+            hlp.biobox_args(),
+            {"output" : out_dir, "metadata" : meta_dir},
+            "default",
+            {"detach" : False})
+    id_ = cnt['Id']
+    util.client().start(id_)
+    util.client().wait(id_)
+    assert funcy.get_in(util.client().inspect_container(id_), ['State', 'ExitCode']) == 0
+    assert os.path.isfile(os.path.join(out_dir, 'contigs.fa'))
+    assert os.path.isfile(os.path.join(meta_dir, 'log.txt'))
     hlp.clean_up_container(id_)

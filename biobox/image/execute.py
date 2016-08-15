@@ -39,8 +39,23 @@ def prepare_volumes(config, output_directory, metadata_directory = None):
     else:
         return vols
 
-def create_container(image, config, output_directory, task = "default", docker_args = {}):
-    volumes = prepare_volumes(config, output_directory)
+def create_container(image, config, directories, task = "default", docker_args = {}):
+    """
+    Returns a new biobox Docker container created from the given image name. The
+    container is not started.
+
+    Keyword arguments:
+      image       -- name of a docker image, may optionally include sha256
+      config      -- biobox configuration as specified by the biobox.yaml format
+      directories -- dictionary of host directories locations with the keys:
+                     output   -- REQUIRED location of output destination directory
+                     metadata -- OPTIONAL location of metadata destination directory
+      task        -- biobox container task to execute, defaults to "default".
+      docker_args -- Optional cgroup data passed to the docker daemon. See the
+                     docker documentation for a list of available values
+    """
+
+    volumes = prepare_volumes(config, directories.get('output'), directories.get('metadata'))
     docker_args['volumes']     = list(map(vol.get_host_path, volumes))
     docker_args['host_config'] = util.client().create_host_config(binds=volumes)
     return util.client().create_container(image, task, **docker_args)
