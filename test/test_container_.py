@@ -1,18 +1,17 @@
 import time, pytest
+import helper           as hlp
 import biobox.container as ctn
 import biobox.util      as util
-import test.helper      as hlp
 
 client = util.client()
 
-def container(arg, wait = True):
+def container(arg, wait = True, docker_args = {}):
     container = client.create_container(image='alpine:3.3', command='/bin/sleep {}'.format(str(arg)))
     id_ = container['Id']
     client.start(id_)
     if wait:
         client.wait(id_)
     return id_
-
 
 def test_did_container_succesfully_exit():
     id_ = container(0.01)

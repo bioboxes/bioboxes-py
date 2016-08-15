@@ -1,4 +1,4 @@
-import os
+import os, funcy
 from functools import partial
 
 BIOBOX_INPUT_MOUNT_LOC = "/bbx/mount"
@@ -39,6 +39,10 @@ def biobox_file(host_directory_path):
     return create_volume_string(host_directory_path, "/bbx/input")
 
 
+def host_directory(x):
+    return os.path.dirname(os.path.abspath(x))
+
+
 def get_host_path(volume_string):
     """
     Returns the host path from a Docker volume string
@@ -46,27 +50,36 @@ def get_host_path(volume_string):
     return volume_string.split(":")[0]
 
 
-def host_directory(x):
-    return os.path.dirname(os.path.abspath(x))
-
-
-def create_host_container_directory_mapping(paths):
+def get_container_path(host_directory, container_prefix_path = "/tmp"):
     """
-    Given a list of dirs on the host returns a dictionary mapping
-    them to dirs within the Docker container
+    Returns a container directory location under the given prefix path.
+    This is deterministic and always returns the same path for the given host path.
     """
-    def volume_mapping(i):
-        index, volume = i
-        return (volume, os.path.join(BIOBOX_INPUT_MOUNT_LOC, str(index)))
+    import hashlib
+    from hashids import Hashids
+    digest = funcy.rcompose(
+            lambda x: hashlib.md5(x.encode('utf-8')).hexdigest(),
+            lambda x: int(x, base=16),
+            Hashids(min_length=6).encode)
+    return os.path.join(container_prefix_path, digest(host_directory))
 
-    uniq_paths = set(map(host_directory, paths))
-    return dict(map(volume_mapping, enumerate(uniq_paths)))
 
-
-def create_input_volume_strings(paths):
+def get_container_mount(path):
     """
-    Given a list of dirs on the host returns the volume strings used by the
-    Docker daemon to mount the dirs into the container
+    Returns dictionary with container mount locations for a given path.
     """
-    f = lambda i: create_volume_string(*i)
-    return list(map(f, create_host_container_directory_mapping(paths).items()))
+    host_dir = host_directory(path)
+    cont_dir = get_container_path(host_dir, BIOBOX_INPUT_MOUNT_LOC)
+    return {"host_dir"      : host_dir,
+            "container_dir" : get_container_path(host_dir, BIOBOX_INPUT_MOUNT_LOC),
+            "biobox_target" : os.path.join(cont_dir, os.path.basename(path)) }
+
+
+def create_volume_string_set(paths):
+    """
+    Returns uniq list of volume strings for a given list host paths
+    """
+    f = funcy.rcompose(
+            get_container_mount,
+            lambda x: create_volume_string(x["host_dir"], x["container_dir"]))
+    return list(funcy.distinct(map(f, paths)))
