@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. This
 project adheres to [Semantic Versioning](http://semver.org/).
 
+## v0.4.2 - 2016-09-08
+
+### Fixed
+
+  * Fixed bug where cgroup data was sampled at 1 second intervals instead of
+    the interval specified by the function argument.
+
 ## v0.4.0 - 2016-08-15
 
 ### Changed
