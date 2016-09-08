@@ -10,15 +10,41 @@ def time_diff_in_seconds(a, b):
     return time_delta.seconds
 
 
-def collect_metric(container_id):
+def collect_metric(stream):
     """
-    Returns a cgroup metric dict for given container id, returns None if a
-    ReadTimeoutError is encoutered from the stream. Prevents race conditions
-    occuring from checking whether a container is running and then it subsequently
-    shutting down before collecting the cgroup metrics.
+    Returns a cgroup metric dict from a given container stream, returns None if a
+    ReadTimeoutError or StopIteration is encoutered from the stream. Prevents race
+    conditions occuring from checking whether a container is running and then it
+    subsequently shutting down before collecting the cgroup metrics.
     """
     import requests.packages.urllib3.exceptions as ex
     try:
-        return next(util.client().stats(container_id, decode = True))
+        return next(stream)
     except ex.ReadTimeoutError:
         return None
+    except StopIteration:
+        return None
+
+
+def collect_runtime_metrics(container_id, interval = 15, warmup = 1):
+    """
+    Collects cgroup runtime metrics from the specified container at the given
+    per-second intervals.
+    """
+
+    stream = util.client().stats(container_id, decode = True, stream = True)
+    time.sleep(warmup)
+    stats  = [next(stream)]
+
+    while True:
+        time.sleep(1)
+        entry = collect_metric(stream)
+
+        # Entry will be None if no further metrics can be collected
+        if not entry:
+            break
+
+        # Append the cgroup entry to the collection if it is greater than interval
+        if time_diff_in_seconds(stats[-1]['read'], entry['read']) > interval:
+            stats.append(entry)
+    return stats
