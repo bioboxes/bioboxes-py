@@ -1,9 +1,19 @@
 import os.path, tempfile
-import biobox.util
+import biobox.util as util
 
 def clean_up_container(id_):
     if not "CIRCLECI" in os.environ:
-        biobox.util.client().remove_container(id_)
+        util.client().remove_container(id_)
+
+
+def dummy_container(arg, wait = True, docker_args = {}):
+    client = util.client()
+    container = client.create_container(image='alpine:3.3', command='/bin/sleep {}'.format(str(arg)))
+    id_ = container['Id']
+    client.start(id_)
+    if wait:
+        client.wait(id_)
+    return id_
 
 #################################################
 #
