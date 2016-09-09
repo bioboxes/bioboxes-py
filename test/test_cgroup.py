@@ -38,6 +38,8 @@ def test_collect_metrics():
 
     timepoints = list(map(cgroup_time, stats))
     assert len(timepoints) >= 3
+    assert len(timepoints)  < 5
 
     duration = cgroup.time_diff_in_seconds(timepoints[0], timepoints[-1])
     assert duration >= 6
+    assert duration < 10
