@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file. This
 project adheres to [Semantic Versioning](http://semver.org/).
 
+## v0.4.3 - 2016-09-09
+
+### Fixed
+
+  * Enable networking on all biobox docker images by default to solve problem
+    of occaisonal network outages on stats collection as outlined in
+    [docker/docker-py#1195][issue-1195].
+
+[issue-1195]: https://github.com/docker/docker-py/issues/1195
+
 ## v0.4.2 - 2016-09-08
 
 ### Fixed

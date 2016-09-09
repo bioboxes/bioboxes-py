@@ -8,7 +8,10 @@ def clean_up_container(id_):
 
 def dummy_container(arg, wait = True, docker_args = {}):
     client = util.client()
-    container = client.create_container(image='alpine:3.3', command='/bin/sleep {}'.format(str(arg)))
+    container = client.create_container(
+            image = 'alpine:3.3',
+            command = '/bin/sleep {}'.format(str(arg)),
+            **{'network_disabled' : False})
     id_ = container['Id']
     client.start(id_)
     if wait:
