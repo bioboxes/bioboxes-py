@@ -36,15 +36,15 @@ def collect_runtime_metrics(container_id, interval = 15, warmup = 1):
     time.sleep(warmup)
     stats  = [next(stream)]
 
-    while True:
+    while ctn.is_running(container_id):
         time.sleep(1)
         entry = collect_metric(stream)
 
-        # Entry will be None if no further metrics can be collected
+        # Remove this when docker/docker-py#1195 is fixed
         if not entry:
-            break
-
-        # Append the cgroup entry to the collection if it is greater than interval
-        if time_diff_in_seconds(stats[-1]['read'], entry['read']) > interval:
-            stats.append(entry)
+            pass
+        else:
+            # Save the cgroup entry if it is greater than given time interval
+            if time_diff_in_seconds(stats[-1]['read'], entry['read']) > interval:
+                stats.append(entry)
     return stats

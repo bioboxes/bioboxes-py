@@ -31,7 +31,8 @@ def prepare_volumes(config, output_directory, metadata_directory = None):
 def create_container(image, config, directories, task = "default", docker_args = {}):
     """
     Returns a new biobox Docker container created from the given image name. The
-    container is not started.
+    container is not started. Networking will be enabled by default until an issue
+    with Docker stats collection is resolved - docker/docker-py#1195.
 
     Keyword arguments:
       image       -- name of a docker image, may optionally include sha256
@@ -45,7 +46,8 @@ def create_container(image, config, directories, task = "default", docker_args =
     """
 
     volumes = prepare_volumes(config, directories.get('output'), directories.get('metadata'))
-    docker_args['volumes']     = list(map(vol.get_host_path, volumes))
+    docker_args['volumes']          = list(map(vol.get_host_path, volumes))
+    docker_args['network_disabled'] = False
 
     host_config = {'binds' : volumes}
     if 'mem_limit' in docker_args:
