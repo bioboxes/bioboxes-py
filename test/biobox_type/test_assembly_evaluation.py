@@ -19,6 +19,7 @@ def test_executing_container():
             biobox_cfg(hlp.contigs(), hlp.references()),
             {"output" : out_dir},
             "default",
+            "0.9.0",
             {"detach" : False})
     id_ = cnt['Id']
     util.client().start(id_)

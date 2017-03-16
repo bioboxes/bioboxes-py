@@ -21,7 +21,7 @@ def biobox_cfg(fastq):
 def test_prepare_biobox_file():
     config = biobox_cfg(hlp.short_read_fastq())
     biobox_file = os.path.join(
-            vol.get_host_path(exe.prepare_biobox_file(config)),
+            vol.get_host_path(exe.prepare_biobox_file("0.9.0", config)),
             "biobox.yaml")
 
     assert os.path.isfile(biobox_file)
@@ -31,7 +31,7 @@ def test_prepare_biobox_file():
 
 
 def test_prepare_volumes():
-    volumes = exe.prepare_volumes(biobox_cfg(hlp.short_read_fastq()), "/tmp")
+    volumes = exe.prepare_volumes(biobox_cfg(hlp.short_read_fastq()), "/tmp", version="0.9.0")
     assert len(volumes) == 3
     for d in map(vol.get_host_path, volumes):
         assert os.path.isdir(d) == True
@@ -39,7 +39,7 @@ def test_prepare_volumes():
 
 
 def test_prepare_volumes_with_metadata_dir():
-    volumes = exe.prepare_volumes(biobox_cfg(hlp.short_read_fastq()), tempfile.mkdtemp(), tempfile.mkdtemp())
+    volumes = exe.prepare_volumes(biobox_cfg(hlp.short_read_fastq()), tempfile.mkdtemp(), tempfile.mkdtemp(), version="0.9.0")
     assert len(volumes) == 4
     for d in map(vol.get_host_path, volumes):
         assert os.path.isdir(d) == True
@@ -72,6 +72,7 @@ def test_executing_container_with_metadata():
             biobox_cfg(hlp.short_read_fastq()),
             {"output" : out_dir, "metadata" : meta_dir},
             "default",
+            "0.9.0",
             {"detach" : False})
     id_ = cnt['Id']
     util.client().start(id_)

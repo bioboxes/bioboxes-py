@@ -30,6 +30,11 @@ def test_get_biobox_paths_with_two_files():
                     }]
     assert cnf.get_all_biobox_paths(biobox) == [path_0, path_1]
 
+def test_get_biobox_paths_from_dict():
+    path = hlp.create_tmp_file("file_0")
+    biobox = [{"database": {"type": "bioboxes.org:/taxonomy_ncbi_dumps", "value": path}}]
+    assert cnf.get_all_biobox_paths(biobox) == [path]
+
 #################################################
 #
 # Test remapping biobox input file paths

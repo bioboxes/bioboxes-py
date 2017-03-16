@@ -20,5 +20,6 @@ def test_create_container_with_cgroup_data():
                 CONFIG,
                 {"output" : out_dir},
                 "default",
+                "0.9.0",
                 arg)
         helper.clean_up_container(cnt['Id'])
