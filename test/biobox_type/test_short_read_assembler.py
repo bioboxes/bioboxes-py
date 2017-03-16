@@ -54,6 +54,7 @@ def test_executing_container():
             biobox_cfg(hlp.short_read_fastq()),
             {"output" : out_dir},
             "default",
+            "0.9.0",
             {"detach" : False})
     id_ = cnt['Id']
     util.client().start(id_)

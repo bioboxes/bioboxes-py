@@ -44,7 +44,7 @@ def create_container(image, config, directories, task = "default", version = "0.
                      docker documentation for a list of available values
     """
 
-    volumes = prepare_volumes(config, directories.get('output'), directories.get('metadata'))
+    volumes = prepare_volumes(config, directories.get('output'), directories.get('metadata'), version)
     docker_args['volumes']          = list(map(vol.get_host_path, volumes))
     docker_args['network_disabled'] = False
 
