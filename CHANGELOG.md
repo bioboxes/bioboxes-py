@@ -5,6 +5,11 @@ project adheres to [Semantic Versioning](http://semver.org/).
 
 ## v0.6.0 - DATE
 
+### Changed
+
+  * Default to a docker.errors.NotFound python exception when the image can't
+    be found. This is instead of creating biobox.exception.ImageNotFound.
+
 ## v0.5.0 - 2017-03-16
 
 ### Changed
@@ -17,7 +22,7 @@ project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
   * Enable networking on all biobox docker images by default to solve problem
-    of occaisonal network outages on stats collection as outlined in
+    of occasional network outages on stats collection as outlined in
     [docker/docker-py#1195][issue-1195].
 
 [issue-1195]: https://github.com/docker/docker-py/issues/1195

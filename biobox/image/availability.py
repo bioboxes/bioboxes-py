@@ -1,3 +1,5 @@
+import docker.errors
+
 import biobox.util      as util
 import biobox.exception
 from functools import reduce
@@ -39,10 +41,9 @@ def is_image_available_locally(name):
 
 def get_image(name):
     """
-    Fetches the Docker image if it is not present locally.
+    Fetches the Docker image if it is not present locally. This will raise a
+    docker.errors.NotFound error if the image does not exist.
     """
     if not is_image_available_locally(name):
-        output = util.client().pull(name)
-        if "error" in output:
-            raise biobox.exception.NoImageFound(name)
+        util.client().pull(name)
     return True

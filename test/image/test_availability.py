@@ -1,6 +1,5 @@
 import pytest
 import biobox.image.availability as avail
-import biobox.exception
 
 IMAGE_TAGS = [
         "alpine",
@@ -31,9 +30,3 @@ def test_checking_a_locally_non_existent_image():
 def test_getting_an_image():
     for tag in IMAGE_TAGS:
         assert avail.get_image(tag)
-
-@pytest.mark.slow
-def test_getting_an_image_that_doesnt_exist():
-    with pytest.raises(biobox.exception.NoImageFound):
-        for tag in UNKNOWN_TAGS:
-            avail.get_image(tag)
