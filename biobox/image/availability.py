@@ -1,7 +1,6 @@
 import docker.errors
+import biobox.util as util
 
-import biobox.util      as util
-import biobox.exception
 from functools import reduce
 
 def get_image_tags(docker_dict):

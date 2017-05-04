@@ -16,7 +16,9 @@ def test_collect_metric_with_dead_container():
     time.sleep(1)
     cgroup.collect_metric(stream)
     time.sleep(1)
-    assert cgroup.collect_metric(stream) == None
+    metrics = cgroup.collect_metric(stream)
+    assert 'memory_stats' in metrics
+    assert metrics['memory_stats'] == {}
     hlp.clean_up_container(id_)
 
 
