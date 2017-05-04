@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file. This
 project adheres to [Semantic Versioning](http://semver.org/).
 
+## v0.6.0 - DATE
+
+## v0.5.0 - 2017-03-16
+
+### Changed
+
+  * Added support for parsing key/value pairs in the biobox.yaml when mapping
+    host file paths onto the Docker volumes.
+
 ## v0.4.3 - 2016-09-09
 
 ### Fixed
