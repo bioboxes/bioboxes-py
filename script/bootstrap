@@ -1,8 +1,0 @@
-#!/bin/bash
-
-make bootstrap
-
-if [ -z $(git remote | grep biobox) ]; then
-	git remote add biobox git@github.com:bioboxes/bioboxes-py.git
-	git fetch biobox
-fi

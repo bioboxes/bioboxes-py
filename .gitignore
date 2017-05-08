@@ -1,8 +1,0 @@
-*.egg-info
-dist
-log
-.tox
-*.pyc
-.cache
-tmp
-.test-install
